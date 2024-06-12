@@ -6,15 +6,22 @@ const express = require("express");
 const app = express();
 const expressLayouts = require("express-ejs-layouts");
 
-const indexRouter = require("./routes/index.js");
+
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout");
 app.use(expressLayouts);
 app.use(express.static("public"));
 
-app.use("/", indexRouter);
 
+// ROUTES
+const indexRouter = require("./routes/index.js");
+const authorsRouter = require("./routes/author.js");
+app.use("/", indexRouter);
+app.use("/authors", authorsRouter);
+
+
+// DATABASE STUFF
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL);
 const db = mongoose.connection
